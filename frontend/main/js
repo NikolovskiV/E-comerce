@@ -1,0 +1,4006 @@
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 30);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(12);
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bind = __webpack_require__(4);
+
+// utils is a library of generic helper functions non-specific to axios
+
+var toString = Object.prototype.toString;
+
+/**
+ * Determine if a value is an Array
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Array, otherwise false
+ */
+function isArray(val) {
+  return toString.call(val) === '[object Array]';
+}
+
+/**
+ * Determine if a value is undefined
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if the value is undefined, otherwise false
+ */
+function isUndefined(val) {
+  return typeof val === 'undefined';
+}
+
+/**
+ * Determine if a value is a Buffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Buffer, otherwise false
+ */
+function isBuffer(val) {
+  return val !== null && !isUndefined(val) && val.constructor !== null && !isUndefined(val.constructor)
+    && typeof val.constructor.isBuffer === 'function' && val.constructor.isBuffer(val);
+}
+
+/**
+ * Determine if a value is an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an ArrayBuffer, otherwise false
+ */
+function isArrayBuffer(val) {
+  return toString.call(val) === '[object ArrayBuffer]';
+}
+
+/**
+ * Determine if a value is a FormData
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an FormData, otherwise false
+ */
+function isFormData(val) {
+  return (typeof FormData !== 'undefined') && (val instanceof FormData);
+}
+
+/**
+ * Determine if a value is a view on an ArrayBuffer
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a view on an ArrayBuffer, otherwise false
+ */
+function isArrayBufferView(val) {
+  var result;
+  if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
+    result = ArrayBuffer.isView(val);
+  } else {
+    result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
+  }
+  return result;
+}
+
+/**
+ * Determine if a value is a String
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a String, otherwise false
+ */
+function isString(val) {
+  return typeof val === 'string';
+}
+
+/**
+ * Determine if a value is a Number
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Number, otherwise false
+ */
+function isNumber(val) {
+  return typeof val === 'number';
+}
+
+/**
+ * Determine if a value is an Object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is an Object, otherwise false
+ */
+function isObject(val) {
+  return val !== null && typeof val === 'object';
+}
+
+/**
+ * Determine if a value is a plain Object
+ *
+ * @param {Object} val The value to test
+ * @return {boolean} True if value is a plain Object, otherwise false
+ */
+function isPlainObject(val) {
+  if (toString.call(val) !== '[object Object]') {
+    return false;
+  }
+
+  var prototype = Object.getPrototypeOf(val);
+  return prototype === null || prototype === Object.prototype;
+}
+
+/**
+ * Determine if a value is a Date
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Date, otherwise false
+ */
+function isDate(val) {
+  return toString.call(val) === '[object Date]';
+}
+
+/**
+ * Determine if a value is a File
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a File, otherwise false
+ */
+function isFile(val) {
+  return toString.call(val) === '[object File]';
+}
+
+/**
+ * Determine if a value is a Blob
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Blob, otherwise false
+ */
+function isBlob(val) {
+  return toString.call(val) === '[object Blob]';
+}
+
+/**
+ * Determine if a value is a Function
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Function, otherwise false
+ */
+function isFunction(val) {
+  return toString.call(val) === '[object Function]';
+}
+
+/**
+ * Determine if a value is a Stream
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a Stream, otherwise false
+ */
+function isStream(val) {
+  return isObject(val) && isFunction(val.pipe);
+}
+
+/**
+ * Determine if a value is a URLSearchParams object
+ *
+ * @param {Object} val The value to test
+ * @returns {boolean} True if value is a URLSearchParams object, otherwise false
+ */
+function isURLSearchParams(val) {
+  return typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams;
+}
+
+/**
+ * Trim excess whitespace off the beginning and end of a string
+ *
+ * @param {String} str The String to trim
+ * @returns {String} The String freed of excess whitespace
+ */
+function trim(str) {
+  return str.trim ? str.trim() : str.replace(/^\s+|\s+$/g, '');
+}
+
+/**
+ * Determine if we're running in a standard browser environment
+ *
+ * This allows axios to run in a web worker, and react-native.
+ * Both environments support XMLHttpRequest, but not fully standard globals.
+ *
+ * web workers:
+ *  typeof window -> undefined
+ *  typeof document -> undefined
+ *
+ * react-native:
+ *  navigator.product -> 'ReactNative'
+ * nativescript
+ *  navigator.product -> 'NativeScript' or 'NS'
+ */
+function isStandardBrowserEnv() {
+  if (typeof navigator !== 'undefined' && (navigator.product === 'ReactNative' ||
+                                           navigator.product === 'NativeScript' ||
+                                           navigator.product === 'NS')) {
+    return false;
+  }
+  return (
+    typeof window !== 'undefined' &&
+    typeof document !== 'undefined'
+  );
+}
+
+/**
+ * Iterate over an Array or an Object invoking a function for each item.
+ *
+ * If `obj` is an Array callback will be called passing
+ * the value, index, and complete array for each item.
+ *
+ * If 'obj' is an Object callback will be called passing
+ * the value, key, and complete object for each property.
+ *
+ * @param {Object|Array} obj The object to iterate
+ * @param {Function} fn The callback to invoke for each item
+ */
+function forEach(obj, fn) {
+  // Don't bother if no value provided
+  if (obj === null || typeof obj === 'undefined') {
+    return;
+  }
+
+  // Force an array if not already something iterable
+  if (typeof obj !== 'object') {
+    /*eslint no-param-reassign:0*/
+    obj = [obj];
+  }
+
+  if (isArray(obj)) {
+    // Iterate over array values
+    for (var i = 0, l = obj.length; i < l; i++) {
+      fn.call(null, obj[i], i, obj);
+    }
+  } else {
+    // Iterate over object keys
+    for (var key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        fn.call(null, obj[key], key, obj);
+      }
+    }
+  }
+}
+
+/**
+ * Accepts varargs expecting each argument to be an object, then
+ * immutably merges the properties of each object and returns result.
+ *
+ * When multiple objects contain the same key the later object in
+ * the arguments list will take precedence.
+ *
+ * Example:
+ *
+ * ```js
+ * var result = merge({foo: 123}, {foo: 456});
+ * console.log(result.foo); // outputs 456
+ * ```
+ *
+ * @param {Object} obj1 Object to merge
+ * @returns {Object} Result of all merge properties
+ */
+function merge(/* obj1, obj2, obj3, ... */) {
+  var result = {};
+  function assignValue(val, key) {
+    if (isPlainObject(result[key]) && isPlainObject(val)) {
+      result[key] = merge(result[key], val);
+    } else if (isPlainObject(val)) {
+      result[key] = merge({}, val);
+    } else if (isArray(val)) {
+      result[key] = val.slice();
+    } else {
+      result[key] = val;
+    }
+  }
+
+  for (var i = 0, l = arguments.length; i < l; i++) {
+    forEach(arguments[i], assignValue);
+  }
+  return result;
+}
+
+/**
+ * Extends object a by mutably adding to it the properties of object b.
+ *
+ * @param {Object} a The object to be extended
+ * @param {Object} b The object to copy properties from
+ * @param {Object} thisArg The object to bind function to
+ * @return {Object} The resulting value of object a
+ */
+function extend(a, b, thisArg) {
+  forEach(b, function assignValue(val, key) {
+    if (thisArg && typeof val === 'function') {
+      a[key] = bind(val, thisArg);
+    } else {
+      a[key] = val;
+    }
+  });
+  return a;
+}
+
+/**
+ * Remove byte order marker. This catches EF BB BF (the UTF-8 BOM)
+ *
+ * @param {string} content with BOM
+ * @return {string} content value without BOM
+ */
+function stripBOM(content) {
+  if (content.charCodeAt(0) === 0xFEFF) {
+    content = content.slice(1);
+  }
+  return content;
+}
+
+module.exports = {
+  isArray: isArray,
+  isArrayBuffer: isArrayBuffer,
+  isBuffer: isBuffer,
+  isFormData: isFormData,
+  isArrayBufferView: isArrayBufferView,
+  isString: isString,
+  isNumber: isNumber,
+  isObject: isObject,
+  isPlainObject: isPlainObject,
+  isUndefined: isUndefined,
+  isDate: isDate,
+  isFile: isFile,
+  isBlob: isBlob,
+  isFunction: isFunction,
+  isStream: isStream,
+  isURLSearchParams: isURLSearchParams,
+  isStandardBrowserEnv: isStandardBrowserEnv,
+  forEach: forEach,
+  merge: merge,
+  extend: extend,
+  trim: trim,
+  stripBOM: stripBOM
+};
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(1);
+var normalizeHeaderName = __webpack_require__(18);
+var enhanceError = __webpack_require__(6);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(7);
+  } else if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(7);
+  }
+  return adapter;
+}
+
+function stringifySafely(rawValue, parser, encoder) {
+  if (utils.isString(rawValue)) {
+    try {
+      (parser || JSON.parse)(rawValue);
+      return utils.trim(rawValue);
+    } catch (e) {
+      if (e.name !== 'SyntaxError') {
+        throw e;
+      }
+    }
+  }
+
+  return (encoder || JSON.stringify)(rawValue);
+}
+
+var defaults = {
+
+  transitional: {
+    silentJSONParsing: true,
+    forcedJSONParsing: true,
+    clarifyTimeoutError: false
+  },
+
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Accept');
+    normalizeHeaderName(headers, 'Content-Type');
+
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data) || (headers && headers['Content-Type'] === 'application/json')) {
+      setContentTypeIfUnset(headers, 'application/json');
+      return stringifySafely(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    var transitional = this.transitional || defaults.transitional;
+    var silentJSONParsing = transitional && transitional.silentJSONParsing;
+    var forcedJSONParsing = transitional && transitional.forcedJSONParsing;
+    var strictJSONParsing = !silentJSONParsing && this.responseType === 'json';
+
+    if (strictJSONParsing || (forcedJSONParsing && utils.isString(data) && data.length)) {
+      try {
+        return JSON.parse(data);
+      } catch (e) {
+        if (strictJSONParsing) {
+          if (e.name === 'SyntaxError') {
+            throw enhanceError(e, this, 'E_JSON_PARSE');
+          }
+          throw e;
+        }
+      }
+    }
+
+    return data;
+  }],
+
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+  maxBodyLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  },
+
+  headers: {
+    common: {
+      'Accept': 'application/json, text/plain, */*'
+    }
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(17)))
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+function encode(val) {
+  return encodeURIComponent(val).
+    replace(/%3A/gi, ':').
+    replace(/%24/g, '$').
+    replace(/%2C/gi, ',').
+    replace(/%20/g, '+').
+    replace(/%5B/gi, '[').
+    replace(/%5D/gi, ']');
+}
+
+/**
+ * Build a URL by appending params to the end
+ *
+ * @param {string} url The base of the url (e.g., http://www.google.com)
+ * @param {object} [params] The params to be appended
+ * @returns {string} The formatted url
+ */
+module.exports = function buildURL(url, params, paramsSerializer) {
+  /*eslint no-param-reassign:0*/
+  if (!params) {
+    return url;
+  }
+
+  var serializedParams;
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (utils.isURLSearchParams(params)) {
+    serializedParams = params.toString();
+  } else {
+    var parts = [];
+
+    utils.forEach(params, function serialize(val, key) {
+      if (val === null || typeof val === 'undefined') {
+        return;
+      }
+
+      if (utils.isArray(val)) {
+        key = key + '[]';
+      } else {
+        val = [val];
+      }
+
+      utils.forEach(val, function parseValue(v) {
+        if (utils.isDate(v)) {
+          v = v.toISOString();
+        } else if (utils.isObject(v)) {
+          v = JSON.stringify(v);
+        }
+        parts.push(encode(key) + '=' + encode(v));
+      });
+    });
+
+    serializedParams = parts.join('&');
+  }
+
+  if (serializedParams) {
+    var hashmarkIndex = url.indexOf('#');
+    if (hashmarkIndex !== -1) {
+      url = url.slice(0, hashmarkIndex);
+    }
+
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+  }
+
+  return url;
+};
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+module.exports = function enhanceError(error, config, code, request, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+
+  error.request = request;
+  error.response = response;
+  error.isAxiosError = true;
+
+  error.toJSON = function toJSON() {
+    return {
+      // Standard
+      message: this.message,
+      name: this.name,
+      // Microsoft
+      description: this.description,
+      number: this.number,
+      // Mozilla
+      fileName: this.fileName,
+      lineNumber: this.lineNumber,
+      columnNumber: this.columnNumber,
+      stack: this.stack,
+      // Axios
+      config: this.config,
+      code: this.code,
+      status: this.response && this.response.status ? this.response.status : null
+    };
+  };
+  return error;
+};
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+var settle = __webpack_require__(19);
+var cookies = __webpack_require__(20);
+var buildURL = __webpack_require__(5);
+var buildFullPath = __webpack_require__(21);
+var parseHeaders = __webpack_require__(24);
+var isURLSameOrigin = __webpack_require__(25);
+var createError = __webpack_require__(8);
+var defaults = __webpack_require__(2);
+var Cancel = __webpack_require__(3);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+    var responseType = config.responseType;
+    var onCanceled;
+    function done() {
+      if (config.cancelToken) {
+        config.cancelToken.unsubscribe(onCanceled);
+      }
+
+      if (config.signal) {
+        config.signal.removeEventListener('abort', onCanceled);
+      }
+    }
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password ? unescape(encodeURIComponent(config.auth.password)) : '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    var fullPath = buildFullPath(config.baseURL, config.url);
+    request.open(config.method.toUpperCase(), buildURL(fullPath, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    function onloadend() {
+      if (!request) {
+        return;
+      }
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !responseType || responseType === 'text' ||  responseType === 'json' ?
+        request.responseText : request.response;
+      var response = {
+        data: responseData,
+        status: request.status,
+        statusText: request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(function _resolve(value) {
+        resolve(value);
+        done();
+      }, function _reject(err) {
+        reject(err);
+        done();
+      }, response);
+
+      // Clean up request
+      request = null;
+    }
+
+    if ('onloadend' in request) {
+      // Use onloadend if available
+      request.onloadend = onloadend;
+    } else {
+      // Listen for ready state to emulate onloadend
+      request.onreadystatechange = function handleLoad() {
+        if (!request || request.readyState !== 4) {
+          return;
+        }
+
+        // The request errored out and we didn't get a response, this will be
+        // handled by onerror instead
+        // With one exception: request that using file: protocol, most browsers
+        // will return status as 0 even though it's a successful request
+        if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+          return;
+        }
+        // readystate handler is calling before onerror or ontimeout handlers,
+        // so we should call onloadend on the next 'tick'
+        setTimeout(onloadend);
+      };
+    }
+
+    // Handle browser request cancellation (as opposed to a manual cancellation)
+    request.onabort = function handleAbort() {
+      if (!request) {
+        return;
+      }
+
+      reject(createError('Request aborted', config, 'ECONNABORTED', request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config, null, request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      var timeoutErrorMessage = config.timeout ? 'timeout of ' + config.timeout + 'ms exceeded' : 'timeout exceeded';
+      var transitional = config.transitional || defaults.transitional;
+      if (config.timeoutErrorMessage) {
+        timeoutErrorMessage = config.timeoutErrorMessage;
+      }
+      reject(createError(
+        timeoutErrorMessage,
+        config,
+        transitional.clarifyTimeoutError ? 'ETIMEDOUT' : 'ECONNABORTED',
+        request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(fullPath)) && config.xsrfCookieName ?
+        cookies.read(config.xsrfCookieName) :
+        undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (!utils.isUndefined(config.withCredentials)) {
+      request.withCredentials = !!config.withCredentials;
+    }
+
+    // Add responseType to request if needed
+    if (responseType && responseType !== 'json') {
+      request.responseType = config.responseType;
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken || config.signal) {
+      // Handle cancellation
+      // eslint-disable-next-line func-names
+      onCanceled = function(cancel) {
+        if (!request) {
+          return;
+        }
+        reject(!cancel || (cancel && cancel.type) ? new Cancel('canceled') : cancel);
+        request.abort();
+        request = null;
+      };
+
+      config.cancelToken && config.cancelToken.subscribe(onCanceled);
+      if (config.signal) {
+        config.signal.aborted ? onCanceled() : config.signal.addEventListener('abort', onCanceled);
+      }
+    }
+
+    if (!requestData) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(6);
+
+/**
+ * Create an Error with the specified message, config, error code, request and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, request, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, request, response);
+};
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+/**
+ * Config-specific merge-function which creates a new config-object
+ * by merging two configuration objects together.
+ *
+ * @param {Object} config1
+ * @param {Object} config2
+ * @returns {Object} New object resulting from merging config2 to config1
+ */
+module.exports = function mergeConfig(config1, config2) {
+  // eslint-disable-next-line no-param-reassign
+  config2 = config2 || {};
+  var config = {};
+
+  function getMergedValue(target, source) {
+    if (utils.isPlainObject(target) && utils.isPlainObject(source)) {
+      return utils.merge(target, source);
+    } else if (utils.isPlainObject(source)) {
+      return utils.merge({}, source);
+    } else if (utils.isArray(source)) {
+      return source.slice();
+    }
+    return source;
+  }
+
+  // eslint-disable-next-line consistent-return
+  function mergeDeepProperties(prop) {
+    if (!utils.isUndefined(config2[prop])) {
+      return getMergedValue(config1[prop], config2[prop]);
+    } else if (!utils.isUndefined(config1[prop])) {
+      return getMergedValue(undefined, config1[prop]);
+    }
+  }
+
+  // eslint-disable-next-line consistent-return
+  function valueFromConfig2(prop) {
+    if (!utils.isUndefined(config2[prop])) {
+      return getMergedValue(undefined, config2[prop]);
+    }
+  }
+
+  // eslint-disable-next-line consistent-return
+  function defaultToConfig2(prop) {
+    if (!utils.isUndefined(config2[prop])) {
+      return getMergedValue(undefined, config2[prop]);
+    } else if (!utils.isUndefined(config1[prop])) {
+      return getMergedValue(undefined, config1[prop]);
+    }
+  }
+
+  // eslint-disable-next-line consistent-return
+  function mergeDirectKeys(prop) {
+    if (prop in config2) {
+      return getMergedValue(config1[prop], config2[prop]);
+    } else if (prop in config1) {
+      return getMergedValue(undefined, config1[prop]);
+    }
+  }
+
+  var mergeMap = {
+    'url': valueFromConfig2,
+    'method': valueFromConfig2,
+    'data': valueFromConfig2,
+    'baseURL': defaultToConfig2,
+    'transformRequest': defaultToConfig2,
+    'transformResponse': defaultToConfig2,
+    'paramsSerializer': defaultToConfig2,
+    'timeout': defaultToConfig2,
+    'timeoutMessage': defaultToConfig2,
+    'withCredentials': defaultToConfig2,
+    'adapter': defaultToConfig2,
+    'responseType': defaultToConfig2,
+    'xsrfCookieName': defaultToConfig2,
+    'xsrfHeaderName': defaultToConfig2,
+    'onUploadProgress': defaultToConfig2,
+    'onDownloadProgress': defaultToConfig2,
+    'decompress': defaultToConfig2,
+    'maxContentLength': defaultToConfig2,
+    'maxBodyLength': defaultToConfig2,
+    'transport': defaultToConfig2,
+    'httpAgent': defaultToConfig2,
+    'httpsAgent': defaultToConfig2,
+    'cancelToken': defaultToConfig2,
+    'socketPath': defaultToConfig2,
+    'responseEncoding': defaultToConfig2,
+    'validateStatus': mergeDirectKeys
+  };
+
+  utils.forEach(Object.keys(config1).concat(Object.keys(config2)), function computeConfigValue(prop) {
+    var merge = mergeMap[prop] || mergeDeepProperties;
+    var configValue = merge(prop);
+    (utils.isUndefined(configValue) && merge !== mergeDirectKeys) || (config[prop] = configValue);
+  });
+
+  return config;
+};
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+module.exports = {
+  "version": "0.23.0"
+};
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+var bind = __webpack_require__(4);
+var Axios = __webpack_require__(13);
+var mergeConfig = __webpack_require__(10);
+var defaults = __webpack_require__(2);
+
+/**
+ * Create an instance of Axios
+ *
+ * @param {Object} defaultConfig The default config for the instance
+ * @return {Axios} A new instance of Axios
+ */
+function createInstance(defaultConfig) {
+  var context = new Axios(defaultConfig);
+  var instance = bind(Axios.prototype.request, context);
+
+  // Copy axios.prototype to instance
+  utils.extend(instance, Axios.prototype, context);
+
+  // Copy context to instance
+  utils.extend(instance, context);
+
+  // Factory for creating new instances
+  instance.create = function create(instanceConfig) {
+    return createInstance(mergeConfig(defaultConfig, instanceConfig));
+  };
+
+  return instance;
+}
+
+// Create the default instance to be exported
+var axios = createInstance(defaults);
+
+// Expose Axios class to allow class inheritance
+axios.Axios = Axios;
+
+// Expose Cancel & CancelToken
+axios.Cancel = __webpack_require__(3);
+axios.CancelToken = __webpack_require__(27);
+axios.isCancel = __webpack_require__(9);
+axios.VERSION = __webpack_require__(11).version;
+
+// Expose all/spread
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+axios.spread = __webpack_require__(28);
+
+// Expose isAxiosError
+axios.isAxiosError = __webpack_require__(29);
+
+module.exports = axios;
+
+// Allow use of default import syntax in TypeScript
+module.exports.default = axios;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+var buildURL = __webpack_require__(5);
+var InterceptorManager = __webpack_require__(14);
+var dispatchRequest = __webpack_require__(15);
+var mergeConfig = __webpack_require__(10);
+var validator = __webpack_require__(26);
+
+var validators = validator.validators;
+/**
+ * Create a new instance of Axios
+ *
+ * @param {Object} instanceConfig The default config for the instance
+ */
+function Axios(instanceConfig) {
+  this.defaults = instanceConfig;
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+}
+
+/**
+ * Dispatch a request
+ *
+ * @param {Object} config The config specific for this request (merged with this.defaults)
+ */
+Axios.prototype.request = function request(config) {
+  /*eslint no-param-reassign:0*/
+  // Allow for axios('example/url'[, config]) a la fetch API
+  if (typeof config === 'string') {
+    config = arguments[1] || {};
+    config.url = arguments[0];
+  } else {
+    config = config || {};
+  }
+
+  config = mergeConfig(this.defaults, config);
+
+  // Set config.method
+  if (config.method) {
+    config.method = config.method.toLowerCase();
+  } else if (this.defaults.method) {
+    config.method = this.defaults.method.toLowerCase();
+  } else {
+    config.method = 'get';
+  }
+
+  var transitional = config.transitional;
+
+  if (transitional !== undefined) {
+    validator.assertOptions(transitional, {
+      silentJSONParsing: validators.transitional(validators.boolean),
+      forcedJSONParsing: validators.transitional(validators.boolean),
+      clarifyTimeoutError: validators.transitional(validators.boolean)
+    }, false);
+  }
+
+  // filter out skipped interceptors
+  var requestInterceptorChain = [];
+  var synchronousRequestInterceptors = true;
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+    if (typeof interceptor.runWhen === 'function' && interceptor.runWhen(config) === false) {
+      return;
+    }
+
+    synchronousRequestInterceptors = synchronousRequestInterceptors && interceptor.synchronous;
+
+    requestInterceptorChain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  var responseInterceptorChain = [];
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    responseInterceptorChain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  var promise;
+
+  if (!synchronousRequestInterceptors) {
+    var chain = [dispatchRequest, undefined];
+
+    Array.prototype.unshift.apply(chain, requestInterceptorChain);
+    chain = chain.concat(responseInterceptorChain);
+
+    promise = Promise.resolve(config);
+    while (chain.length) {
+      promise = promise.then(chain.shift(), chain.shift());
+    }
+
+    return promise;
+  }
+
+
+  var newConfig = config;
+  while (requestInterceptorChain.length) {
+    var onFulfilled = requestInterceptorChain.shift();
+    var onRejected = requestInterceptorChain.shift();
+    try {
+      newConfig = onFulfilled(newConfig);
+    } catch (error) {
+      onRejected(error);
+      break;
+    }
+  }
+
+  try {
+    promise = dispatchRequest(newConfig);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+
+  while (responseInterceptorChain.length) {
+    promise = promise.then(responseInterceptorChain.shift(), responseInterceptorChain.shift());
+  }
+
+  return promise;
+};
+
+Axios.prototype.getUri = function getUri(config) {
+  config = mergeConfig(this.defaults, config);
+  return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, '');
+};
+
+// Provide aliases for supported request methods
+utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, config) {
+    return this.request(mergeConfig(config || {}, {
+      method: method,
+      url: url,
+      data: (config || {}).data
+    }));
+  };
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, data, config) {
+    return this.request(mergeConfig(config || {}, {
+      method: method,
+      url: url,
+      data: data
+    }));
+  };
+});
+
+module.exports = Axios;
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected, options) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected,
+    synchronous: options ? options.synchronous : false,
+    runWhen: options ? options.runWhen : null
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+var transformData = __webpack_require__(16);
+var isCancel = __webpack_require__(9);
+var defaults = __webpack_require__(2);
+var Cancel = __webpack_require__(3);
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+
+  if (config.signal && config.signal.aborted) {
+    throw new Cancel('canceled');
+  }
+}
+
+/**
+ * Dispatch a request to the server using the configured adapter.
+ *
+ * @param {object} config The config that is to be used for the request
+ * @returns {Promise} The Promise to be fulfilled
+ */
+module.exports = function dispatchRequest(config) {
+  throwIfCancellationRequested(config);
+
+  // Ensure headers exist
+  config.headers = config.headers || {};
+
+  // Transform request data
+  config.data = transformData.call(
+    config,
+    config.data,
+    config.headers,
+    config.transformRequest
+  );
+
+  // Flatten headers
+  config.headers = utils.merge(
+    config.headers.common || {},
+    config.headers[config.method] || {},
+    config.headers
+  );
+
+  utils.forEach(
+    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+    function cleanHeaderConfig(method) {
+      delete config.headers[method];
+    }
+  );
+
+  var adapter = config.adapter || defaults.adapter;
+
+  return adapter(config).then(function onAdapterResolution(response) {
+    throwIfCancellationRequested(config);
+
+    // Transform response data
+    response.data = transformData.call(
+      config,
+      response.data,
+      response.headers,
+      config.transformResponse
+    );
+
+    return response;
+  }, function onAdapterRejection(reason) {
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+
+      // Transform response data
+      if (reason && reason.response) {
+        reason.response.data = transformData.call(
+          config,
+          reason.response.data,
+          reason.response.headers,
+          config.transformResponse
+        );
+      }
+    }
+
+    return Promise.reject(reason);
+  });
+};
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+var defaults = __webpack_require__(2);
+
+/**
+ * Transform the data for a request or a response
+ *
+ * @param {Object|String} data The data to be transformed
+ * @param {Array} headers The headers for the request or response
+ * @param {Array|Function} fns A single function or Array of functions
+ * @returns {*} The resulting transformed data
+ */
+module.exports = function transformData(data, headers, fns) {
+  var context = this || defaults;
+  /*eslint no-param-reassign:0*/
+  utils.forEach(fns, function transform(fn) {
+    data = fn.call(context, data, headers);
+  });
+
+  return data;
+};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
+    }
+  });
+};
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createError = __webpack_require__(8);
+
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  if (!response.status || !validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError(
+      'Request failed with status code ' + response.status,
+      response.config,
+      null,
+      response.request,
+      response
+    ));
+  }
+};
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs support document.cookie
+    (function standardBrowserEnv() {
+      return {
+        write: function write(name, value, expires, path, domain, secure) {
+          var cookie = [];
+          cookie.push(name + '=' + encodeURIComponent(value));
+
+          if (utils.isNumber(expires)) {
+            cookie.push('expires=' + new Date(expires).toGMTString());
+          }
+
+          if (utils.isString(path)) {
+            cookie.push('path=' + path);
+          }
+
+          if (utils.isString(domain)) {
+            cookie.push('domain=' + domain);
+          }
+
+          if (secure === true) {
+            cookie.push('secure');
+          }
+
+          document.cookie = cookie.join('; ');
+        },
+
+        read: function read(name) {
+          var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+          return (match ? decodeURIComponent(match[3]) : null);
+        },
+
+        remove: function remove(name) {
+          this.write(name, '', Date.now() - 86400000);
+        }
+      };
+    })() :
+
+  // Non standard browser env (web workers, react-native) lack needed support.
+    (function nonStandardBrowserEnv() {
+      return {
+        write: function write() {},
+        read: function read() { return null; },
+        remove: function remove() {}
+      };
+    })()
+);
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isAbsoluteURL = __webpack_require__(22);
+var combineURLs = __webpack_require__(23);
+
+/**
+ * Creates a new URL by combining the baseURL with the requestedURL,
+ * only when the requestedURL is not already an absolute URL.
+ * If the requestURL is absolute, this function returns the requestedURL untouched.
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} requestedURL Absolute or relative URL to combine
+ * @returns {string} The combined full path
+ */
+module.exports = function buildFullPath(baseURL, requestedURL) {
+  if (baseURL && !isAbsoluteURL(requestedURL)) {
+    return combineURLs(baseURL, requestedURL);
+  }
+  return requestedURL;
+};
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return relativeURL
+    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+    : baseURL;
+};
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+// Headers whose duplicates are ignored by node
+// c.f. https://nodejs.org/api/http.html#http_message_headers
+var ignoreDuplicateOf = [
+  'age', 'authorization', 'content-length', 'content-type', 'etag',
+  'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since',
+  'last-modified', 'location', 'max-forwards', 'proxy-authorization',
+  'referer', 'retry-after', 'user-agent'
+];
+
+/**
+ * Parse headers into an object
+ *
+ * ```
+ * Date: Wed, 27 Aug 2014 08:58:49 GMT
+ * Content-Type: application/json
+ * Connection: keep-alive
+ * Transfer-Encoding: chunked
+ * ```
+ *
+ * @param {String} headers Headers needing to be parsed
+ * @returns {Object} Headers parsed into an object
+ */
+module.exports = function parseHeaders(headers) {
+  var parsed = {};
+  var key;
+  var val;
+  var i;
+
+  if (!headers) { return parsed; }
+
+  utils.forEach(headers.split('\n'), function parser(line) {
+    i = line.indexOf(':');
+    key = utils.trim(line.substr(0, i)).toLowerCase();
+    val = utils.trim(line.substr(i + 1));
+
+    if (key) {
+      if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
+        return;
+      }
+      if (key === 'set-cookie') {
+        parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
+      } else {
+        parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+      }
+    }
+  });
+
+  return parsed;
+};
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+    (function standardBrowserEnv() {
+      var msie = /(msie|trident)/i.test(navigator.userAgent);
+      var urlParsingNode = document.createElement('a');
+      var originURL;
+
+      /**
+    * Parse a URL to discover it's components
+    *
+    * @param {String} url The URL to be parsed
+    * @returns {Object}
+    */
+      function resolveURL(url) {
+        var href = url;
+
+        if (msie) {
+        // IE needs attribute set twice to normalize properties
+          urlParsingNode.setAttribute('href', href);
+          href = urlParsingNode.href;
+        }
+
+        urlParsingNode.setAttribute('href', href);
+
+        // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+        return {
+          href: urlParsingNode.href,
+          protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+          host: urlParsingNode.host,
+          search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+          hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+          hostname: urlParsingNode.hostname,
+          port: urlParsingNode.port,
+          pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+            urlParsingNode.pathname :
+            '/' + urlParsingNode.pathname
+        };
+      }
+
+      originURL = resolveURL(window.location.href);
+
+      /**
+    * Determine if a URL shares the same origin as the current location
+    *
+    * @param {String} requestURL The URL to test
+    * @returns {boolean} True if URL shares the same origin, otherwise false
+    */
+      return function isURLSameOrigin(requestURL) {
+        var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+        return (parsed.protocol === originURL.protocol &&
+            parsed.host === originURL.host);
+      };
+    })() :
+
+  // Non standard browser envs (web workers, react-native) lack needed support.
+    (function nonStandardBrowserEnv() {
+      return function isURLSameOrigin() {
+        return true;
+      };
+    })()
+);
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var VERSION = __webpack_require__(11).version;
+
+var validators = {};
+
+// eslint-disable-next-line func-names
+['object', 'boolean', 'number', 'function', 'string', 'symbol'].forEach(function(type, i) {
+  validators[type] = function validator(thing) {
+    return typeof thing === type || 'a' + (i < 1 ? 'n ' : ' ') + type;
+  };
+});
+
+var deprecatedWarnings = {};
+
+/**
+ * Transitional option validator
+ * @param {function|boolean?} validator - set to false if the transitional option has been removed
+ * @param {string?} version - deprecated version / removed since version
+ * @param {string?} message - some message with additional info
+ * @returns {function}
+ */
+validators.transitional = function transitional(validator, version, message) {
+  function formatMessage(opt, desc) {
+    return '[Axios v' + VERSION + '] Transitional option \'' + opt + '\'' + desc + (message ? '. ' + message : '');
+  }
+
+  // eslint-disable-next-line func-names
+  return function(value, opt, opts) {
+    if (validator === false) {
+      throw new Error(formatMessage(opt, ' has been removed' + (version ? ' in ' + version : '')));
+    }
+
+    if (version && !deprecatedWarnings[opt]) {
+      deprecatedWarnings[opt] = true;
+      // eslint-disable-next-line no-console
+      console.warn(
+        formatMessage(
+          opt,
+          ' has been deprecated since v' + version + ' and will be removed in the near future'
+        )
+      );
+    }
+
+    return validator ? validator(value, opt, opts) : true;
+  };
+};
+
+/**
+ * Assert object's properties type
+ * @param {object} options
+ * @param {object} schema
+ * @param {boolean?} allowUnknown
+ */
+
+function assertOptions(options, schema, allowUnknown) {
+  if (typeof options !== 'object') {
+    throw new TypeError('options must be an object');
+  }
+  var keys = Object.keys(options);
+  var i = keys.length;
+  while (i-- > 0) {
+    var opt = keys[i];
+    var validator = schema[opt];
+    if (validator) {
+      var value = options[opt];
+      var result = value === undefined || validator(value, opt, options);
+      if (result !== true) {
+        throw new TypeError('option ' + opt + ' must be ' + result);
+      }
+      continue;
+    }
+    if (allowUnknown !== true) {
+      throw Error('Unknown option ' + opt);
+    }
+  }
+}
+
+module.exports = {
+  assertOptions: assertOptions,
+  validators: validators
+};
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__(3);
+
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+
+  var token = this;
+
+  // eslint-disable-next-line func-names
+  this.promise.then(function(cancel) {
+    if (!token._listeners) return;
+
+    var i;
+    var l = token._listeners.length;
+
+    for (i = 0; i < l; i++) {
+      token._listeners[i](cancel);
+    }
+    token._listeners = null;
+  });
+
+  // eslint-disable-next-line func-names
+  this.promise.then = function(onfulfilled) {
+    var _resolve;
+    // eslint-disable-next-line func-names
+    var promise = new Promise(function(resolve) {
+      token.subscribe(resolve);
+      _resolve = resolve;
+    }).then(onfulfilled);
+
+    promise.cancel = function reject() {
+      token.unsubscribe(_resolve);
+    };
+
+    return promise;
+  };
+
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+
+/**
+ * Subscribe to the cancel signal
+ */
+
+CancelToken.prototype.subscribe = function subscribe(listener) {
+  if (this.reason) {
+    listener(this.reason);
+    return;
+  }
+
+  if (this._listeners) {
+    this._listeners.push(listener);
+  } else {
+    this._listeners = [listener];
+  }
+};
+
+/**
+ * Unsubscribe from the cancel signal
+ */
+
+CancelToken.prototype.unsubscribe = function unsubscribe(listener) {
+  if (!this._listeners) {
+    return;
+  }
+  var index = this._listeners.indexOf(listener);
+  if (index !== -1) {
+    this._listeners.splice(index, 1);
+  }
+};
+
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Syntactic sugar for invoking a function and expanding an array for arguments.
+ *
+ * Common use case would be to use `Function.prototype.apply`.
+ *
+ *  ```js
+ *  function f(x, y, z) {}
+ *  var args = [1, 2, 3];
+ *  f.apply(null, args);
+ *  ```
+ *
+ * With `spread` this example can be re-written.
+ *
+ *  ```js
+ *  spread(function(x, y, z) {})([1, 2, 3]);
+ *  ```
+ *
+ * @param {Function} callback
+ * @returns {Function}
+ */
+module.exports = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+};
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the payload is an error thrown by Axios
+ *
+ * @param {*} payload The value to test
+ * @returns {boolean} True if the payload is an error thrown by Axios, otherwise false
+ */
+module.exports = function isAxiosError(payload) {
+  return (typeof payload === 'object') && (payload.isAxiosError === true);
+};
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// CONCATENATED MODULE: ./src/localStorage.js
+const getCartItems = () => {
+    const cartItems = localStorage.getItem('cartItems')
+        ? JSON.parse(localStorage.getItem('cartItems'))
+        : [];
+    return cartItems;
+};
+
+const setCartItems = (cartItems) => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+};
+
+const setUserInfo = ({
+    _id = '',
+    name = '',
+    email = '',
+    password = '',
+    token = '',
+    isAdmin = false,
+}) => {
+    localStorage.setItem('userInfo', JSON.stringify({
+        _id,
+        name,
+        email,
+        password,
+        token,
+        isAdmin,
+    })
+    );
+};
+
+const clearUser = () => {
+    localStorage.removeItem('userInfo');
+}
+
+const getUserInfo = () => {
+    return localStorage.getItem('userInfo')
+        ? JSON.parse(localStorage.getItem('userInfo'))
+        : { name: '', email: '', password: '' };
+};
+
+const getShipping = () => {
+    const shipping = localStorage.getItem('shipping') ?
+        JSON.parse(localStorage.getItem('shipping')) :
+        {
+            address: '',
+            city: '',
+            postalCode: '',
+            country: '',
+        };
+    return shipping;
+};
+
+const setShipping = ({
+    address = '',
+    city = '',
+    postalCode = '',
+    country = '',
+}) => {
+    localStorage.setItem('shipping', JSON.stringify({ address, city, postalCode, country })
+    );
+};
+
+const getPayment = () => {
+    const payment = localStorage.getItem('payment') ?
+        JSON.parse(localStorage.getItem('payment')) :
+        {
+            paymentMethod: 'paypal',
+        };
+    return payment;
+};
+
+const setPayment = ({
+    paymentMethod = 'paypal',
+}) => {
+    localStorage.setItem('payment', JSON.stringify({ paymentMethod })
+    );
+};
+
+const cleanCart = () => {
+    localStorage.removeItem('cartItems');
+}
+// CONCATENATED MODULE: ./src/components/Header.js
+
+
+const Header = {
+    render: () => {
+        const { name, isAdmin } = getUserInfo();
+        return `
+        <div class="logo">
+                <a href="/#/"><strong>Home Shop</strong></a>
+            </div>
+            <div>
+                <div class="search-container">
+                <form action="/action_page.php">
+                    <input type="text" placeholder="Search.." name="search">
+                    <button class="src-btn primary"type="submit"><i class="fa fa-search"></i></button>
+                </form>
+                </div>
+            </div>
+            <div>
+                <strong>
+                ${name
+                ? `<a href="/#/profile">${name}</a>`
+                : `<a href="/#/signin">Sign-In</a>`
+            }
+                <a href="/#/cart">Cart</a>
+                ${isAdmin ? `<a href="/#/dashboard">Dashboard</a>` : ''}
+                </strong>
+            </div>
+        `
+    },
+    after_render: () => { },
+};
+
+/* harmony default export */ var components_Header = (Header);
+// EXTERNAL MODULE: ./node_modules/axios/index.js
+var axios = __webpack_require__(0);
+var axios_default = /*#__PURE__*/__webpack_require__.n(axios);
+
+// CONCATENATED MODULE: ./src/config.js
+const apiUrl = 'http://localhost:4000';
+// CONCATENATED MODULE: ./src/api.js
+
+
+
+
+const getProducts = async () => {
+    try {
+        const response = await axios_default()({
+            url: `${apiUrl}/api/products`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (response.statusText !== 'OK') {
+            throw new Error(response.data.message);
+        }
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        return { error: err.response.data.message || err.message };
+    }
+};
+
+const getProduct = async (id) => {
+    try {
+        const response = await axios_default()({
+            url: `${apiUrl}/api/products/${id}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (response.statusText !== 'OK') {
+            throw new Error(response.data.message);
+        }
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        return { error: err.response.data.message || err.message };
+    }
+};
+
+const createProduct = async () => {
+    try {
+        const { token } = getUserInfo();
+        const response = await axios_default()({
+            url: `${apiUrl}/api/products`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (response.statusText !== 'Created') {
+            throw new Error(response.data.message);
+        }
+        return response.data;
+
+    } catch (err) {
+        return { error: err.response.data.message || err.message };
+    }
+}
+
+const updateProduct = async (product) => {
+    try {
+        const { token } = getUserInfo();
+        const response = await axios_default()({
+            url: `${apiUrl}/api/products/${product._id}`,
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            data: product,
+        });
+        if (response.statusText !== 'OK') {
+            throw new Error(response.data.message);
+        }
+        return response.data;
+
+    } catch (err) {
+        return { error: err.response.data.message || err.message };
+    }
+}
+
+const uploadProductImage = async (formData) => {
+    try {
+        const { token } = getUserInfo();
+        const response = await axios_default()({
+            url: `${apiUrl}/api/uploads`,
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
+            },
+            data: formData,
+        });
+        if (response.statusText !== 'Created') {
+            throw new Error(response.data.message)
+        } else {
+            return response.data;
+        }
+    } catch (err) {
+        return { error: err.response.data.message || err.message };
+    }
+}
+
+const signin = async ({ email, password }) => {
+    try {
+        const response = await axios_default()({
+            url: `${apiUrl}/api/users/signin`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: {
+                email,
+                password,
+            },
+        });
+        if (response.statusText !== 'OK') {
+            throw new Error(response.data.message);
+        }
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        return { error: err.response.data.message || err.message };
+    }
+};
+
+const register = async ({ name, email, password }) => {
+    try {
+        const response = await axios_default()({
+            url: `${apiUrl} / api / users / register`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: {
+                name,
+                email,
+                password,
+            },
+        });
+        if (response.statusText !== 'OK') {
+            throw new Error(response.data.message);
+        }
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        return { error: err.response.data.message || err.message };
+    }
+};
+
+const update = async ({ name, email, password }) => {
+    try {
+        const { _id, token } = getUserInfo();
+        const response = await axios_default()({
+            url: `${apiUrl} / api / users / ${_id}`,
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            data: {
+                name,
+                email,
+                password,
+            },
+        });
+        if (response.statusText !== 'OK') {
+            throw new Error(response.data.message);
+        }
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        return { error: err.response.data.message || err.message };
+    }
+};
+
+const createOrder = async (order) => {
+    try {
+        const { token } = getUserInfo();
+        const response = await axios_default()({
+            url: `${apiUrl} / api / orders`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            data: order,
+        });
+        if (response.statusText !== 'Created') {
+            throw new Error(response.data.message);
+        }
+        return response.data;
+    } catch (err) {
+        return { error: err.response ? err.response.data.message : err.message };
+    }
+};
+
+const getOrder = async (id) => {
+    try {
+        const { token } = getUserInfo();
+        const response = await axios_default()({
+            url: `${apiUrl} / api / orders / ${id}`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (response.statusText !== 'OK') {
+            throw new Error(response.data.message);
+        }
+        return response.data;
+    } catch (err) {
+        return { error: err.message };
+    }
+};
+
+const getMyOrders = async () => {
+    try {
+        const { token } = getUserInfo();
+        const response = await axios_default()({
+            url: `${apiUrl} / api / orders / mine`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (response.statusText !== 'OK') {
+            throw new Error(response.data.message);
+        }
+        return response.data;
+    } catch (err) {
+        return { error: err.response ? err.response.data.message : err.message };
+    }
+};
+
+const getPaypalClientId = async () => {
+    const response = await axios_default()({
+        url: `${apiUrl} / api / paypal / clientId`,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    if (response.statusText !== 'OK') {
+        throw new Error(response.data.message);
+    }
+    return response.data.clientId;
+};
+
+const payOrder = async (orderId, paymentResult) => {
+    try {
+        const { token } = getUserInfo();
+        const response = await axios_default()({
+            url: `${apiUrl} / api / orders / ${orderId} / pay`,
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            data: paymentResult,
+        });
+        if (response.statusText !== 'OK') {
+            throw new Error(response.data.message);
+        }
+        return response.data;
+    } catch (err) {
+        return { error: err.response ? err.response.data.message : err.message };
+    }
+};
+
+// CONCATENATED MODULE: ./src/utils.js
+
+
+const parseRequestUrl = () => {
+    const url = document.location.hash.toLocaleLowerCase();
+    const request = url.split('/');
+    return {
+        resource: request[1],
+        id: request[2],
+        verb: request[3],
+    };
+};
+
+const rerender = async (component) => {
+    document.getElementById('main-container').innerHTML = await component.render();
+    await component.after_render();
+}
+
+const showLoading = () => {
+    document.getElementById('loading-overlay').classList.add('active');
+};
+
+const hideLoading = () => {
+    document.getElementById('loading-overlay').classList.remove('active');
+};
+
+const showMessage = (message, callback) => {
+    document.getElementById('message-overlay').innerHTML = `
+    <div>
+        <div id="message-overlay-content">${message}</div>
+        <button id="message-overlay-close-button">OK</button>
+    </div>
+    `;
+    document.getElementById('message-overlay').classList.add('active');
+    document.getElementById('message-overlay-close-button').addEventListener('click', () => {
+        document.getElementById('message-overlay').classList.remove('active');
+        if (callback) {
+            callback();
+        }
+    });
+};
+
+const redirectUser = () => {
+    if (getCartItems().length !== 0) {
+        document.location.hash = '/shipping';
+    } else {
+        document.location.hash = '/';
+    }
+};
+// CONCATENATED MODULE: ./src/screens/CartScreen.js
+
+
+
+
+
+const addToCart = (item, forceUpdate = false) => {
+    let cartItems = getCartItems();
+    const existItem = cartItems.find((x) => x.product === item.product);
+    if (existItem) {
+        if (forceUpdate) {
+            cartItems = cartItems.map((x) => x.product === existItem.product ? item : x);
+        }
+    } else {
+        cartItems = [...cartItems, item];
+    }
+    setCartItems(cartItems);
+    if (forceUpdate) {
+        rerender(CartScreen);
+    }
+};
+
+const removeFromCart = (id) => {
+    setCartItems(getCartItems().filter((x) => x.product !== id));
+    if (id === parseRequestUrl().id) {
+        document.location.hash = '/cart';
+    } else {
+        rerender(CartScreen);
+    }
+};
+
+const CartScreen = {
+    after_render: () => {
+        const qtySelects = document.getElementsByClassName('qty-select');
+        Array.from(qtySelects).forEach((qtySelect) => {
+            qtySelect.addEventListener('change', (e) => {
+                const item = getCartItems().find((x) => x.product === qtySelect.id);
+                addToCart({ ...item, qty: Number(e.target.value) }, true);
+            });
+        });
+        const deleteButtons = document.getElementsByClassName('delete-button');
+        Array.from(deleteButtons).forEach((deleteButton) => {
+            deleteButton.addEventListener('click', () => {
+                removeFromCart(deleteButton.id);
+            });
+        });
+        document.getElementById('checkout-button').addEventListener('click', () => {
+            document.location.hash = '/signin';
+        });
+    },
+    render: async () => {
+        const request = parseRequestUrl();
+        if (request.id) {
+            const product = await getProduct(request.id);
+            addToCart({
+                product: product._id,
+                name: product.name,
+                image: product.image,
+                price: product.price,
+                countInStock: product.countInStock,
+                qty: 1,
+            });
+        }
+        const cartItems = getCartItems();
+        return `<div class="content cart">
+            <div class="cart-list">
+                <ul class="cart-list-container">
+                    <li>
+                        <h3>Shopping Cart</h3>
+                        <div>Price</div>
+                    </li>
+                    ${cartItems.length === 0
+                ? '<div>Cart is empty. <a href="/#/">Go Shopping</a>'
+                : cartItems.map((item) => `
+                <li>
+                        <div class="cart-image">
+                            <img src="${item.image}" alt="${item.name}" />
+                            </div>
+                            <div class="cart-name">
+                                <div>
+                                <a href="/#/product/${item.product}">
+                                    ${item.name}
+                                </a>
+                                </div>
+                                <div>
+                                Qty: 
+                                <select class="qty-select" id="${item.product}">
+                  ${[...Array(item.countInStock).keys()].map((x) => item.qty === x + 1
+                    ? `<option selected value="${x + 1}">${x + 1}</option>`
+                    : `<option value="${x + 1}">${x + 1}</option>`)}
+                  </select>
+                                <button type="button" class="delete-button" id="${item.product}">Delete</button>
+                                </div>
+                                </div>
+                                <div class="cart-price">
+                                $${item.price}
+                                </div>
+                                </li> 
+                                                            `).join('\n')
+            }
+                </ul>
+            </div>
+            <div class="cart-action">
+          <h3>
+            Subtotal (${cartItems.reduce((a, c) => a + c.qty, 0)} items)
+            :
+            $${cartItems.reduce((a, c) => a + c.price * c.qty, 0)}
+          </h3>
+          <button id="checkout-button" class="primary fw">
+            Proceed to Checkout
+          </button>
+      </div>
+        </div>
+        `;
+    },
+};
+
+/* harmony default export */ var screens_CartScreen = (CartScreen);
+// CONCATENATED MODULE: ./src/components/DashboardMenu.js
+const DashboardMenu = {
+    render: (props) => {
+        return `
+            <div class="dashboard-menu">
+                <ul>
+                    <li class="${props.selected === 'dashboard' ? 'selected' : ''}">
+                        <a href="#/dashboard">Dashboard</a>
+                    </li>
+                    <li class="${props.selected === 'users' ? 'selected' : ''}">
+                        <a href="#/userslist">Users</a>
+                    </li>
+                    <li class="${props.selected === 'orders' ? 'selected' : ''}">
+                        <a href="#/orderlist">Orders</a>
+                    </li>
+                    <li class="${props.selected === 'products' ? 'selected' : ''}">
+                        <a href="#/productlist">Products</a>
+                    </li>
+                </ul>
+            </div>
+        `;
+    },
+};
+
+/* harmony default export */ var components_DashboardMenu = (DashboardMenu);
+// CONCATENATED MODULE: ./src/screens/DashboardScreen.js
+
+
+const DashboardScreen = {
+    after_render: () => { },
+    render: () => {
+        return `
+            <div class="dashboard">
+                ${components_DashboardMenu.render({ selected: 'dashboard' })}
+                <div class="dashboard-content">
+                    <h1>Dashboard</h1>
+                    <div>
+                    Info and Charts will be added here
+                     </div>
+                      </div>
+            </div>
+        `;
+    },
+};
+
+/* harmony default export */ var screens_DashboardScreen = (DashboardScreen);
+// CONCATENATED MODULE: ./src/screens/Error404Screen.js
+const Error404Screen = {
+    render: () => {
+        return `<div>Page Not Found!</div>`;
+    },
+};
+
+/* harmony default export */ var screens_Error404Screen = (Error404Screen);
+// CONCATENATED MODULE: ./src/components/Rating.js
+const Rating = {
+    render: (props) => {
+        if (!props.value) {
+            return '<div></div>';
+        }
+        return `
+        <div class="rating">
+        <span>
+        <i class="${props.value >= 1
+                ? 'fa fa-star'
+                : props.value >= 0.5
+                    ? 'fa fa-star-half-o'
+                    : 'fa fa-star-o'}"> 
+            </i>
+        </span>
+        <span>
+        <i class="${props.value >= 2
+                ? 'fa fa-star'
+                : props.value >= 1.5
+                    ? 'fa fa-star-half-o'
+                    : 'fa fa-star-o'}">
+            </i>
+        </span>
+        <span>
+        <i class="${props.value >= 3
+                ? 'fa fa-star'
+                : props.value >= 2.5
+                    ? 'fa fa-star-half-o'
+                    : 'fa fa-star-o'}">
+            </i>
+        </span>
+        <span>
+        <i class="${props.value >= 4
+                ? 'fa fa-star'
+                : props.value >= 3.5
+                    ? 'fa fa-star-half-o'
+                    : 'fa fa-star-o'}">
+            </i>
+        </span>
+        <span>
+        <i class="${props.value >= 5
+                ? 'fa fa-star'
+                : props.value >= 4.5
+                    ? 'fa fa-star-half-o'
+                    : 'fa fa-star-o'}">
+            </i>
+        </span>
+        <span> ${props.text || ''}</span>
+        </div>
+        `;
+    },
+};
+
+/* harmony default export */ var components_Rating = (Rating);
+// CONCATENATED MODULE: ./src/screens/HomeScreen.js
+
+
+
+
+const HomeScreen = {
+  render: async () => {
+
+    const products = await getProducts();
+    if (products.error) {
+      return `<div class="error">${products.error}</div>`;
+    }
+
+    return `
+        <ul class="products">
+      ${products.map(
+      (product) => `
+      <li>
+        <div class="product">
+          <a href="/#/product/${product._id}">
+            <img src="${product.image}" alt="${product.name}" />
+          </a>
+        <div class="product-name">
+          <a href="/#/product/1">
+            ${product.name}
+          </a>
+        </div>
+        <div class="product-rating">
+          ${components_Rating.render({
+        value: product.rating,
+        text: `${product.numReviews} reviews`,
+      })}
+        </div>
+        <div class="product-brand">
+          ${product.brand}
+        </div>
+        <div class="product-price">
+          $${product.price}
+        </div>
+        </div>
+      </li>
+      `,
+    )
+        .join('\n')}
+    `;
+  },
+};
+
+/* harmony default export */ var screens_HomeScreen = (HomeScreen);
+// CONCATENATED MODULE: ./src/screens/OrderListScreen.js
+const OrderListScreen = {
+    after_render: () => { },
+    render: () => {
+        return 'OrderListScreen';
+    },
+};
+
+/* harmony default export */ var screens_OrderListScreen = (OrderListScreen);
+// CONCATENATED MODULE: ./src/screens/OrderScreen.js
+
+
+
+
+const addPaypalSdk = async (totalPrice) => {
+  const clientId = await getPaypalClientId();
+  showLoading();
+  if (!window.paypal) {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://www.paypalobjects.com/api/checkout.js';
+    script.async = true;
+    script.onload = () => handlePayment(clientId, totalPrice);
+    document.body.appendChild(script);
+  } else {
+    handlePayment(clientId, totalPrice);
+  }
+};
+
+const handlePayment = (clientId, totalPrice) => {
+  window.paypal.Button.render(
+    {
+      env: 'sandbox',
+      client: {
+        sandbox: clientId,
+        production: '',
+      },
+      locale: 'en_US',
+      style: {
+        size: 'responsive',
+        color: 'gold',
+        shape: 'pill',
+      },
+
+      commit: true,
+      payment(data, actions) {
+        return actions.payment.create({
+          transactions: [
+            {
+              amount: {
+                total: totalPrice,
+                currency: 'USD',
+              },
+            },
+          ],
+        });
+      },
+      onAuthorize(data, actions) {
+        return actions.payment.execute().then(async () => {
+          showLoading();
+          await payOrder(parseRequestUrl().id, {
+            orderID: data.orderID,
+            payerID: data.payerID,
+            paymentID: data.paymentID,
+          });
+          hideLoading();
+          showMessage('Payment was successfull.', () => {
+            rerender(OrderScreen);
+          });
+        });
+      },
+    },
+    '#paypal-button'
+  ).then(() => {
+    hideLoading();
+  });
+};
+
+const OrderScreen = {
+  after_render: async () => { },
+  render: async () => {
+    const request = parseRequestUrl();
+    const {
+      _id,
+      shipping,
+      payment,
+      orderItems,
+      itemsPrice,
+      shippingPrice,
+      taxPrice,
+      totalPrice,
+      isDelivered,
+      deliveredAt,
+      isPaid,
+      paidAt,
+    } = await getOrder(request.id);
+    if (!isPaid) {
+      addPaypalSdk(totalPrice);
+    }
+    return `
+            <div>
+            <h1>Order ${_id}</h1>
+      <div class="order">
+        <div class="order-info">
+          <div>
+            <h2>Shipping</h2>
+            <div>
+            ${shipping.address}, ${shipping.city}, ${shipping.postalCode}, 
+            ${shipping.country}
+            </div>
+            ${isDelivered
+        ? `<div class="success">Delivered at ${deliveredAt}</div>`
+        : `<div class="error">Not Delivered</div>`}
+          </div>
+          <div>
+            <h2>Payment</h2>
+            <div>
+              Payment Method : ${payment.paymentMethod}
+            </div>
+             ${isPaid
+        ? `<div class="success">Paid at ${paidAt}</div>`
+        : `<div class="error">Not Paid</div>`}
+          </div>
+          <div>
+            <ul class="cart-list-container">
+              <li>
+                <h2>Shopping Cart</h2>
+                <div>Price</div>
+              </li>
+              ${orderItems
+        .map(
+          (item) => `
+                <li>
+                  <div class="cart-image">
+                    <img src="${item.image}" alt="${item.name}" />
+                  </div>
+                  <div class="cart-name">
+                    <div>
+                      <a href="/#/product/${item.product}">${item.name} </a>
+                    </div>
+                    <div> Qty: ${item.qty} </div>
+                  </div>
+                  <div class="cart-price"> $${item.price}</div>
+                </li>
+                `
+        )
+        .join('\n')}
+            </ul>
+          </div>
+        </div>
+        <div class="order-action">
+           <ul>
+                <li>
+                  <h2>Order Summary</h2>
+                 </li>
+                 <li><div>Items</div><div>$${itemsPrice}</div></li>
+                 <li><div>Shipping</div><div>$${shippingPrice}</div></li>
+                 <li><div>Tax</div><div>$${taxPrice}</div></li>
+                 <li class="total"><div>Order Total</div><div>$${totalPrice}</div></li> 
+                 <li><div class= "fw" id="paypal-button"></div></li>
+                 <li>
+        </div>
+      </div>
+    </div>
+    `;
+  },
+};
+
+/* harmony default export */ var screens_OrderScreen = (OrderScreen);
+// CONCATENATED MODULE: ./src/components/CheckoutSteps.js
+const CheckoutSteps = {
+    render: (props) => {
+        return `
+    <div class="checkout-steps">
+      <div class="${props.step1 ? 'active' : ''}">Signin</div>
+      <div class="${props.step2 ? 'active' : ''}">Shipping</div>
+      <div class="${props.step3 ? 'active' : ''}">Payment</div>
+      <div class="${props.step4 ? 'active' : ''}">Place Order</div>
+    </div>
+    `;
+    },
+};
+/* harmony default export */ var components_CheckoutSteps = (CheckoutSteps);
+// CONCATENATED MODULE: ./src/screens/PaymentScreen.js
+
+
+
+const PaymentScreen = {
+  after_render: () => {
+    document
+      .getElementById('payment-form')
+      .addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+        setPayment({ paymentMethod });
+        document.location.hash = '/placeorder';
+      });
+  },
+  render: () => {
+    const { name } = getUserInfo();
+    if (!name) {
+      document.location.hash = '/';
+    }
+    return `
+    ${components_CheckoutSteps.render({ step1: true, step2: true, step3: true })}
+    <div class="form-container">
+      <form id="payment-form">
+        <ul class="form-items">
+          <li>
+            <h1>Payment</h1>
+          </li>
+           <li>
+           <div>
+           <input type="radio" name="payment-method" id="paypal" value="Paypal" checked />
+           <label for="paypal">Paypal</label>
+           </div>
+           </li>
+            <li>
+           <div>
+           <input type="radio" name="payment-method" id="visa" value="Visa" />
+           <label for="Visa">Visa Card</label>
+           </div>
+           </li>
+            <li>
+           <div>
+           <input type="radio" name="payment-method" id="master" value="Master" />
+           <label for="Master">Master Card</label>
+           </div>
+           </li>
+           <li>
+           <div>
+           <input type="radio" name="payment-method" id="stripe" value="Stripe" />
+           <label for="paypal">Stripe</label>
+           </div>
+           </li>
+          <li>
+            <button type="submit" class="primary">Continue</button>
+          </li>        
+        </ul>
+      </form>
+    </div>
+    `;
+  },
+};
+/* harmony default export */ var screens_PaymentScreen = (PaymentScreen);
+// CONCATENATED MODULE: ./src/screens/PlaceOrderScreen.js
+
+
+
+
+
+const convertCartToOrder = () => {
+    const orderItems = getCartItems();
+    if (orderItems.length === 0) {
+        document.location.hash = '/cart';
+    }
+    const shipping = getShipping();
+    if (!shipping.address) {
+        document.location.hash = '/shipping';
+    }
+    const payment = getPayment();
+    if (!payment.paymentMethod) {
+        document.location.hash = '/payment';
+    }
+    const itemsPrice = orderItems.reduce((a, c) => a + c.price * c.qty, 0);
+    const shippingPrice = itemsPrice > 100 ? 0 : 10;
+    const taxPrice = Math.round(0.15 * itemsPrice * 100) / 100;
+    const totalPrice = itemsPrice + shippingPrice + taxPrice;
+    return {
+        orderItems,
+        shipping,
+        payment,
+        itemsPrice,
+        shippingPrice,
+        taxPrice,
+        totalPrice,
+    };
+}
+
+const PlaceOrderScreen = {
+    after_render: async () => {
+        document.getElementById('placeorder-button').addEventListener('click', async () => {
+            const order = convertCartToOrder();
+            showLoading();
+            const data = await createOrder(order);
+            hideLoading();
+            if (data.error) {
+                showMessage(data.error);
+            } else {
+                cleanCart();
+                document.location.hash = `/order/${data.order._id}`;
+            }
+        });
+    },
+    render: () => {
+        const {
+            orderItems,
+            shipping,
+            payment,
+            itemsPrice,
+            shippingPrice,
+            taxPrice,
+            totalPrice,
+        } = convertCartToOrder();
+        return `
+            <div>
+      ${components_CheckoutSteps.render({
+            step1: true,
+            step2: true,
+            step3: true,
+            step4: true,
+        })}
+      <div class="order">
+        <div class="order-info">
+          <div>
+            <h2>Shipping</h2>
+            <div>
+            ${shipping.address}, ${shipping.city}, ${shipping.postalCode}, 
+            ${shipping.country}
+            </div>
+          </div>
+          <div>
+            <h2>Payment</h2>
+            <div>
+              Payment Method : ${payment.paymentMethod}
+            </div>
+          </div>
+          <div>
+            <ul class="cart-list-container">
+              <li>
+                <h2>Shopping Cart</h2>
+                <div>Price</div>
+              </li>
+              ${orderItems
+                .map(
+                    (item) => `
+                <li>
+                  <div class="cart-image">
+                    <img src="${item.image}" alt="${item.name}" />
+                  </div>
+                  <div class="cart-name">
+                    <div>
+                      <a href="/#/product/${item.product}">${item.name} </a>
+                    </div>
+                    <div> Qty: ${item.qty} </div>
+                  </div>
+                  <div class="cart-price"> $${item.price}</div>
+                </li>
+                `
+                )
+                .join('\n')}
+            </ul>
+          </div>
+        </div>
+        <div class="order-action">
+           <ul>
+                <li>
+                  <h2>Order Summary</h2>
+                 </li>
+                 <li><div>Items</div><div>$${itemsPrice}</div></li>
+                 <li><div>Shipping</div><div>$${shippingPrice}</div></li>
+                 <li><div>Tax</div><div>$${taxPrice}</div></li>
+                 <li class="total"><div>Order Total</div><div>$${totalPrice}</div></li> 
+                 <li>
+                 <button id="placeorder-button" class="primary fw">
+                 Place Order
+                 </button>
+        </div>
+      </div>
+    </div>
+    `;
+    },
+};
+
+/* harmony default export */ var screens_PlaceOrderScreen = (PlaceOrderScreen);
+// CONCATENATED MODULE: ./src/screens/ProductEditScreen.js
+
+
+
+const ProductEditScreen = {
+    after_render: () => {
+        const request = parseRequestUrl();
+        document.getElementById('edit-product-form')
+            .addEventListener('submit', async (e) => {
+                e.preventDefault();
+                showLoading();
+                const data = await updateProduct({
+                    _id: request.id,
+                    name: document.getElementById('name').value,
+                    price: document.getElementById('price').value,
+                    image: document.getElementById('image').value,
+                    brand: document.getElementById('brand').value,
+                    category: document.getElementById('category').value,
+                    countInStock: document.getElementById('countInStock').value,
+                    description: document.getElementById('description').value,
+                });
+                hideLoading();
+                if (data.error) {
+                    showMessage(data.error);
+                } else {
+                    document.location.hash = '/productlist';
+                }
+            });
+        document.getElementById('image-file')
+            .addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                const formData = new FormData();
+                formData.append('image', file);
+                showLoading();
+                const data = await uploadProductImage(formData);
+                hideLoading();
+                if (data.error) {
+                    showMessage(data.error);
+                } else {
+                    showMessage('Image uploaded successfully.');
+                    document.getElementById('image').value = data.image;
+                }
+            })
+    },
+    render: async () => {
+        const request = parseRequestUrl();
+        const product = await getProduct(request.id);
+        return `
+        <div class="content">
+            <div>
+                <a href="/#/productlist">Back to products</a>
+            </div>
+             <div class="form-container">
+                <form id="edit-product-form">
+                    <ul class="form-items">
+                        <li>
+                            <h1>Edit Product ${product._id.substring(0, 8)}</h1>
+                        </li>
+                        <li>
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name" value="${product.name}" />
+                        </li>
+                        <li>
+                            <label for="price">Price</label>
+                            <input type="number" name="price" id="price" value="${product.price}" />
+                        </li>
+                        <li>
+                            <label for="image">Image (680 / 830)</label>
+                            <input type="text" name="image" id="image" value="${product.image}" />
+                            <input type="file" name="image-file" id="image-file" />
+                        </li>
+                        <li>
+                            <label for="brand">Brand</label>
+                            <input type="text" name="brand" id="brand" value="${product.brand}" />
+                        </li>
+                        <li>
+                            <label for="countInStock">Count In Stoc</label>
+                            <input type="text" name="countInStock" id="countInStock" value="${product.countInStock}" />
+                        </li>
+                        <li>
+                            <label for="category">Category</label>
+                            <input type="text" name="category" id="category" value="${product.category}" />
+                        </li>
+                        <li>
+                            <label for="description">Description</label>
+                            <input type="text" name="description" id="description" value="${product.description}" />
+                        </li>
+                        <li>
+                            <button type="submit" class="primary">Update</button>
+                        </li>
+                    </ul>
+                </form>
+             </div>
+        </div>
+        `;
+    },
+};
+
+/* harmony default export */ var screens_ProductEditScreen = (ProductEditScreen);
+// CONCATENATED MODULE: ./src/screens/ProductListScreen.js
+
+
+
+const ProductListScreen = {
+    after_render: () => {
+        document.getElementById('create-product-button')
+            .addEventListener('click', async () => {
+                const data = await createProduct();
+                document.location.hash = `/product/${data.product._id}/edit`;
+            });
+
+        const editButtons = document.getElementsByClassName('edit-button');
+        Array.from(editButtons).forEach(editButton => {
+            editButton.addEventListener('click', () => {
+                document.location.hash = `/product/${editButton.id}/edit`;
+            })
+        })
+    },
+    render: async () => {
+        const products = await getProducts();
+        return `
+                <div class="dashboard">
+                    ${components_DashboardMenu.render({ selected: 'products' })}
+            <div class="dashboard-content">
+                <h1>Products</h1>
+                <button id="create-product-button" class="primary">
+                    Create Product
+                </button>
+                <div class="product-list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>PRICE</th>
+                                <th>CATEGORY</th>
+                                <th>BRAND</th>
+                                <th class="tr-action">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${products.map(product => `
+                            <tr>
+                                <td>${product._id}</td>
+                                <td>${product.name}</td>
+                                <td>${product.price}</td>
+                                <td>${product.category}</td>
+                                <td>${product.brand}</td>
+                                <td>
+                                    <button id="${product._id}" class="edit-button">Edit</button>
+                                    <button id="${product._id}" class="delete-button">Delete</button>
+                                </td>
+                            </tr>
+                        `).join('\n')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </ >
+    `;
+    },
+};
+
+/* harmony default export */ var screens_ProductListScreen = (ProductListScreen);
+// CONCATENATED MODULE: ./src/screens/ProductScreen.js
+
+
+
+
+const ProductScreen = {
+    after_render: () => {
+        const request = parseRequestUrl();
+        document.getElementById('add-button').addEventListener('click',
+            () => {
+                document.location.hash = `/cart/${request.id}`;
+            });
+    },
+    render: async () => {
+        const request = parseRequestUrl();
+        showLoading();
+        const product = await getProduct(request.id);
+        if (product.error) {
+            return `<div>${product.error}</div>`;
+        }
+        hideLoading();
+        return `
+        <div class="content">
+            <div class="back-to-result">
+                <button class="primary"><a href="/#/">Back to result</a></button>
+            </div>
+            <div class="details">
+                <div class="details-image">
+                    <img src="${product.image}" alt="${product.name}"/>
+                </div>
+                <div class="details-info">
+                    <ul>
+                        <li>
+                            <h1>${product.name}</h1>
+                        </li>
+                        <li>
+                            ${components_Rating.render({
+            value: product.rating,
+            text: `${product.numReviews} reviews`,
+        })}
+                        </li>
+                        <li>
+                            Price: <strong>$${product.price}</strong>
+                        </li>
+                        <li>
+                        Description:
+                        <div>
+                            ${product.description}
+                        </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="details-action">
+                <ul>
+                    <li>
+                        Price: $${product.price}
+                    </li>
+                    <li>
+                        Status: 
+                        ${product.countInStock > 0
+                ? `<span class="success">In Stock</span>`
+                : `<span class="error">Unavailable</span>`}
+                    </li>
+                    <li>
+                        <button id="add-button" class="fw primary">Add to Cart</button>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </div>
+        `;
+    },
+};
+
+/* harmony default export */ var screens_ProductScreen = (ProductScreen);
+// CONCATENATED MODULE: ./src/screens/ProfileScreen.js
+
+
+
+
+const ProfileScreen = {
+    after_render: () => {
+        document.getElementById('signout-button').addEventListener('click', () => {
+            clearUser();
+            document.location.hash = '/';
+        })
+        document.getElementById('profile-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            showLoading();
+            const data = await update({
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+            });
+            hideLoading();
+            if (data.error) {
+                showMessage(data.error);
+            } else {
+                setUserInfo(data);
+                document.location.hash = '/';
+            }
+        })
+    },
+    render: async () => {
+        const { name, email } = getUserInfo();
+        if (!name) {
+            document.location.hash = '/';
+        }
+        const orders = await getMyOrders();
+        return `
+        <div class="content profile">
+        <div class="profile-info">
+        <div class="form-container">
+            <form id="profile-form">
+                <ul class="form-items">
+                    <li>
+                        <h1>User Profile</h1>
+                    </li>
+                    <li>
+                        <label for="name">Name</label>
+                        <input type="name" name="name" id="name" value="${name}"/>
+                    </li>
+                    <li>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" value="${email}"/>
+                    </li>
+                    <li>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" />
+                    </li>
+                    <li>
+                        <button type="submit" class="primary">Update</button>
+                    </li>
+                    <li>
+                        <button type="button" id="signout-button">Sign Out</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        </div>
+        <div class="profile-orders">
+        <h2>Order History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ORDER ID</th>
+                        <th>DATE</th>
+                        <th>TOTAL</th>
+                        <th>PAID</th>
+                        <th>DELIVERED</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        ${orders.length === 0 ? `<tr><td colspan="6">No Order Found.</tr>`
+                : orders.map(order => `
+                    <tr>
+                    <td>${order._id}</td>
+                    <td>${order.createdAt}</td>
+                    <td>${order.totalPrice}</td>
+                    <td>${order._paidAt || 'No'}</td>
+                    <td>${order.deliveredAt || 'No'}</td>
+                    <td><a href="/#/order/${order._id}">DETAILS</a></td>
+                    </tr>
+                `).join('\n')
+            }
+                    </tbody>
+            </table>
+        </div>
+        </div>
+
+        `;
+    },
+};
+
+/* harmony default export */ var screens_ProfileScreen = (ProfileScreen);
+// CONCATENATED MODULE: ./src/screens/RegisterScreen.js
+
+
+
+
+const RegisterScreen = {
+    after_render: () => {
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            showLoading();
+            const data = await register({
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+            });
+            hideLoading();
+            if (data.error) {
+                showMessage(data.error);
+            } else {
+                setUserInfo(data);
+                redirectUser();
+            }
+        })
+    },
+    render: () => {
+        if (getUserInfo().name) {
+            redirectUser();
+        }
+        return `
+        <div class="form-container">
+            <form id="register-form">
+                <ul class="form-items">
+                    <li>
+                        <h1>Create Account</h1>
+                    </li>
+                    <li>
+                        <label for="name">Name</label>
+                        <input type="name" name="name" id="name" />
+                    </li>
+                    <li>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" />
+                    </li>
+                    <li>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" />
+                    </li>
+                    <li>
+                        <label for="repassword">Re-Enter Password</label>
+                        <input type="password" name="repassword" id="repassword" />
+                    </li>
+                    <li>
+                        <button type="submit" class="primary">Register</button>
+                    </li>
+                    <li>
+                        <div>
+                        Allredy have an account?
+                        <a href="/#/signin">Sign-In</a>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        `
+    },
+};
+
+/* harmony default export */ var screens_RegisterScreen = (RegisterScreen);
+// CONCATENATED MODULE: ./src/screens/ShippingScreen.js
+
+
+
+const ShippingScreen = {
+    after_render: () => {
+        document
+            .getElementById('shipping-form')
+            .addEventListener('submit', async (e) => {
+                e.preventDefault();
+                setShipping({
+                    address: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    postalCode: document.getElementById('postalCode').value,
+                    country: document.getElementById('country').value,
+                });
+                document.location.hash = '/payment';
+            });
+    },
+    render: () => {
+        const { name } = getUserInfo();
+        if (!name) {
+            document.location.hash = '/';
+        }
+        const { address, city, postalCode, country } = getShipping();
+        return `
+    ${components_CheckoutSteps.render({ step1: true, step2: true })}
+    <div class="form-container">
+      <form id="shipping-form">
+        <ul class="form-items">
+          <li>
+            <h1>Shipping</h1>
+          </li>
+          <li>
+            <label for="address">Adress</label>
+            <input type="text" name="address" id="address" value="${address}" />
+          </li>
+          <li>
+            <label for="city">City</label>
+            <input type="text" name="city" id="city" value="${city}" />
+          </li>
+          <li>
+            <label for="postalCode">Postal Code</label>
+            <input type="text" name="postalCode" id="postalCode" value="${postalCode}" />
+          </li>
+          <li>
+            <label for="country">Country</label>
+            <input type="text" name="country" id="country" value="${country}" />
+          </li>
+          <li>
+            <button type="submit" class="primary">Continue</button>
+          </li>        
+        </ul>
+      </form>
+    </div>
+    `;
+    },
+};
+/* harmony default export */ var screens_ShippingScreen = (ShippingScreen);
+// CONCATENATED MODULE: ./src/screens/SigninScreen.js
+
+
+
+
+const SigninScreen = {
+    after_render: () => {
+        document.getElementById('signin-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            showLoading();
+            const data = await signin({
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value
+            });
+            hideLoading();
+            if (data.error) {
+                showMessage(data.error);
+            } else {
+                setUserInfo(data);
+                redirectUser();
+            }
+        })
+    },
+    render: () => {
+        if (getUserInfo().name) {
+            redirectUser();
+        }
+        return `
+        <div class="form-container">
+            <form id="signin-form">
+                <ul class="form-items">
+                    <li>
+                        <h1>Sign-In</h1>
+                    </li>
+                    <li>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" />
+                    </li>
+                    <li>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" />
+                    </li>
+                    <li>
+                        <button type="submit" class="primary">Signin</button>
+                    </li>
+                    <li>
+                        <div>
+                        New User?
+                        <a href="/#/register">Create your account</a>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        `
+    },
+};
+
+/* harmony default export */ var screens_SigninScreen = (SigninScreen);
+// CONCATENATED MODULE: ./src/screens/UsersScreen.js
+const UsersScreen = {
+    after_render: () => { },
+    render: () => {
+        return 'UsersListScreen';
+    },
+};
+
+/* harmony default export */ var screens_UsersScreen = (UsersScreen);
+// CONCATENATED MODULE: ./src/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const routes = {
+    '/': screens_HomeScreen,
+    '/product/:id/edit': screens_ProductEditScreen,
+    '/product/:id': screens_ProductScreen,
+    '/order/:id': screens_OrderScreen,
+    '/cart/:id': screens_CartScreen,
+    '/cart': screens_CartScreen,
+    '/signin': screens_SigninScreen,
+    '/register': screens_RegisterScreen,
+    '/profile': screens_ProfileScreen,
+    '/shipping': screens_ShippingScreen,
+    '/payment': screens_PaymentScreen,
+    '/placeorder': screens_PlaceOrderScreen,
+    '/dashboard': screens_DashboardScreen,
+    '/userslist': screens_UsersScreen,
+    '/orderlist': screens_OrderListScreen,
+    '/productlist': screens_ProductListScreen,
+}
+
+const router = async () => {
+    showLoading();
+    const request = parseRequestUrl();
+    const parseUrl =
+        (request.resource ? `/${request.resource}` : '/') +
+        (request.id ? '/:id' : '') +
+        (request.verb ? `/${request.verb}` : '');
+    const screen = routes[parseUrl] ? routes[parseUrl] : screens_Error404Screen;
+    const header = document.getElementById('header-container');
+    header.innerHTML = await components_Header.render();
+    await components_Header.after_render();
+    const main = document.getElementById('main-container');
+    main.innerHTML = await screen.render();
+    if (screen.after_render) await screen.after_render();
+    hideLoading();
+};
+
+window.addEventListener('load', router);
+window.addEventListener('hashchange', router);
+
+/***/ })
+/******/ ]);
